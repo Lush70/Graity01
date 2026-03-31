@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graity - Login</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #C8A2FF 0%, #9B7BFF 100%);
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            padding: var(--spacing-6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .login-card {
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-8);
+            box-shadow: var(--shadow-xl);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: var(--spacing-8);
+        }
+
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-4);
+            overflow: hidden;
+            background: transparent;
+        }
+
+        .login-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .login-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-2);
+        }
+
+        .login-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-6);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-2);
+        }
+
+        .form-group label {
+            margin: 0;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-2);
+            font-size: 0.9rem;
+        }
+
+        .remember-me input {
+            width: auto;
+            margin: 0;
+        }
+
+        .login-actions {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-3);
+        }
+
+        .saved-email-bar {
+            display: none;
+            flex-wrap: wrap;
+            gap: var(--spacing-2);
+            background: var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-3);
+            align-items: center;
+            color: var(--text-secondary);
+        }
+
+        .saved-email-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-2);
+        }
+
+        .saved-email-chip {
+            border: none;
+            background: var(--primary-light);
+            color: var(--text);
+            padding: 0.4rem 0.75rem;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+        }
+
+        .saved-email-chip:hover {
+            background: var(--primary-medium);
+            color: white;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            width: 100%;
+            padding-right: 4rem;
+        }
+
+        .password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 0.75rem;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: var(--primary-medium);
+            cursor: pointer;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .password-toggle:hover {
+            color: var(--primary-dark);
+        }
+
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+            margin: var(--spacing-6) 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .divider-text {
+            background: var(--surface);
+            padding: 0 var(--spacing-3);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .signup-link {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .signup-link a {
+            color: var(--primary-medium);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .signup-link a:hover {
+            color: var(--primary-light);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: var(--spacing-4);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            width: min(540px, 100%);
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-6);
+            box-shadow: var(--shadow-xl);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-5);
+        }
+
+        .modal-close {
+            border: none;
+            background: transparent;
+            font-size: 1.25rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-4);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--spacing-3);
+            margin-top: var(--spacing-4);
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: var(--spacing-6);
+            right: var(--spacing-6);
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: var(--spacing-4);
+            }
+
+            .login-card {
+                padding: var(--spacing-6);
+            }
+
+            .login-title {
+                font-size: 1.5rem;
+            }
+
+            .theme-toggle {
+                top: var(--spacing-4);
+                right: var(--spacing-4);
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle">Tema</button>
+
+    <div class="login-container">
+        <div class="login-card animate-fade-in">
+            <div class="login-header">
+                <div class="login-logo">
+                    <img src="assets/logo.png" alt="Graity logo">
+                </div>
+                <h1 class="login-title">Graity</h1>
+                <p class="login-subtitle">Organize seus estudos com tranquilidade</p>
+            </div>
+
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="seu@email.com" required>
+                </div>
+
+                <div id="savedEmailBar" class="saved-email-bar">
+                    <span>Emails salvos:</span>
+                    <div id="savedEmailList" class="saved-email-list"></div>
+                </div>
+
+                <div class="form-group password-group">
+                    <label for="password">Senha</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" placeholder="Sua senha" required>
+                        <button type="button" class="password-toggle" data-target="password">Mostrar</button>
+                    </div>
+                </div>
+
+                <div class="remember-me">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember" style="margin: 0;">Lembrar de mim</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg btn-full">
+                    Entrar
+                </button>
+            </form>
+
+            <div class="divider">
+                <span class="divider-text">Novo por aqui?</span>
+            </div>
+
+            <div class="login-actions">
+                <button id="signupBtn" class="btn btn-outline btn-lg btn-full">
+                    Criar conta
+                </button>
+                <button id="guestBtn" class="btn btn-secondary btn-lg btn-full">
+                    Acessar sem login
+                </button>
+            </div>
+
+            <div class="signup-link" style="margin-top: var(--spacing-6);">
+                Esqueceu a senha? <a href="#" onclick="handleForgotPassword(); return false;">Clique aqui</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Registro -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Criar Conta</h2>
+                <button class="modal-close">✕</button>
+            </div>
+
+            <form id="signupForm" class="modal-body">
+                <div class="form-group">
+                    <label for="signupName">Nome Completo</label>
+                    <input type="text" id="signupName" placeholder="Seu nome" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupEmailLocal">Email</label>
+                    <div style="display: grid; grid-template-columns: 1fr auto; gap: var(--spacing-3);">
+                        <input type="text" id="signupEmailLocal" placeholder="seu-nome" required>
+                        <select id="emailProvider">
+                            <option value="gmail">@gmail.com</option>
+                            <option value="outlook">@outlook.com</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group password-group">
+                    <label for="signupPassword">Senha</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="signupPassword" placeholder="Escolha uma senha" required>
+                        <button type="button" class="password-toggle" data-target="signupPassword">Mostrar</button>
+                    </div>
+                </div>
+
+                <div class="form-group password-group">
+                    <label for="signupConfirm">Confirmar Senha</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="signupConfirm" placeholder="Confirme a senha" required>
+                        <button type="button" class="password-toggle" data-target="signupConfirm">Mostrar</button>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="Utils.closeModal('signupModal')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Criar Conta
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="resetModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Recuperar Senha</h2>
+                <button class="modal-close">✕</button>
+            </div>
+            <form id="resetRequestForm" class="modal-body">
+                <p>Informe o email da sua conta e enviaremos um link de redefinição.</p>
+                <div class="form-group">
+                    <label for="resetEmailLocal">Email</label>
+                    <div style="display: grid; grid-template-columns: 1fr auto; gap: var(--spacing-3);">
+                        <input type="text" id="resetEmailLocal" placeholder="seu-nome" required>
+                        <select id="resetEmailProvider">
+                            <option value="gmail">@gmail.com</option>
+                            <option value="outlook">@outlook.com</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="Utils.closeModal('resetModal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

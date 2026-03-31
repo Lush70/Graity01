@@ -1,0 +1,21 @@
+[
+  {
+    "id": 1774654095087,
+    "name": "Estudante",
+    "email": "teste@graity.com",
+    "passwordHash": "$2a$10$M.GR24yVDcvBMDEGSzNRoe3uDqzdosP.7stKTIi6Itc4bGOucuvo6",
+    "verified": true,
+    "createdAt": "2026-03-27T23:28:15.087Z",
+    "avatar": "ES"
+  },
+  {
+    "id": 1774654161760,
+    "name": "Luís Otávio",
+    "email": "luisotavioreis2010@gmail.com",
+    "passwordHash": "$2a$10$VLh3.H3SN88Fk.POY/0uiOBm1h0T7wzVJPOhfVd.beCg2FtgDqxK6",
+    "verified": false,
+    "verificationToken": "164383",
+    "createdAt": "2026-03-27T23:29:21.760Z",
+    "avatar": "LO"
+  }
+]
